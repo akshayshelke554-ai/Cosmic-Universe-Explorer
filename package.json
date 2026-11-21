@@ -1,0 +1,16 @@
+{
+  "name": "cosmic-universe-explorer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Realistic 3D Solar System explorer",
+  "scripts": {
+    "build": "echo Static app ready"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/core": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3"
+  }
+}
