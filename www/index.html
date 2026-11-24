@@ -112,5 +112,46 @@ window.addEventListener('resize',()=>{
  console.error(e);
 }
 </script>
-</body>
+<div id="planet-info" style="
+position:fixed;
+bottom:20px;
+left:10px;
+right:10px;
+padding:15px;
+background:rgba(0,0,0,0.85);
+color:white;
+border:1px solid #00d9ff;
+border-radius:15px;
+font-family:Arial;
+z-index:9999;
+">
+<h3 id="planet-name">Welcome to Cosmic Explorer</h3>
+<p id="planet-description">Tap a planet to explore its secrets!</p>
+</div>
+
+<script>
+const planetDetails = {
+  Mercury: "Mercury is the closest planet to the Sun.",
+  Venus: "Venus is the hottest planet in our solar system.",
+  Earth: "Earth is our home planet.",
+  Mars: "Mars is known as the Red Planet.",
+  Jupiter: "Jupiter is the largest planet.",
+  Saturn: "Saturn is famous for its beautiful rings.",
+  Uranus: "Uranus rotates on its side.",
+  Neptune: "Neptune is a cold, distant ice giant."
+};
+
+document.addEventListener("click", function(event) {
+  const planet = event.target.closest(".planet");
+  if (!planet) return;
+
+  const name = planet.dataset.name || planet.id;
+  const description = planetDetails[name];
+
+  if (description) {
+    document.getElementById("planet-name").textContent = name;
+    document.getElementById("planet-description").textContent = description;
+  }
+});
+</script></body>
 </html>
