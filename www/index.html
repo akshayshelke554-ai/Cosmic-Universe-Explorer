@@ -110,16 +110,73 @@ renderer.domElement.addEventListener('pointerdown', (event) => {
     const index = objects.indexOf(hits[0].object);
     const name = planets[index][0];
 
-    const details = {
-      Mercury: "बुध / Mercury – सूर्याच्या सर्वात जवळचा ग्रह. Smallest planet.",
-      Venus: "शुक्र / Venus – सर्वात उष्ण ग्रह. Hottest planet.",
-      Earth: "पृथ्वी / Earth – आपले घर. Known planet with life.",
-      Mars: "मंगळ / Mars – लाल ग्रह. The Red Planet.",
-      Jupiter: "गुरू / Jupiter – सौरमालेतील सर्वात मोठा ग्रह. Largest planet.",
-      Saturn: "शनी / Saturn – सुंदर कड्यांसाठी प्रसिद्ध. Famous for its rings.",
-      Uranus: "युरेनस / Uranus – बाजूला कलून फिरणारा ग्रह. Rotates on its side.",
-      Neptune: "नेपच्यून / Neptune – सूर्यापासून सर्वात दूरचा ग्रह. Farthest planet."
-    };
+    
+const details = {
+  Mercury:
+    "बुध (Mercury)<br>" +
+    "Diameter: 4,879 km<br>" +
+    "Sun Distance: 57.9 million km<br>" +
+    "Year: 88 Earth days<br>" +
+    "Day: 59 Earth days<br>" +
+    "विशेष: सूर्याच्या सर्वात जवळचा आणि सर्वात लहान ग्रह.",
+
+  Venus:
+    "शुक्र (Venus)<br>" +
+    "Diameter: 12,104 km<br>" +
+    "Sun Distance: 108.2 million km<br>" +
+    "Year: 225 Earth days<br>" +
+    "Day: 243 Earth days<br>" +
+    "विशेष: सौरमालेतील सर्वात उष्ण ग्रह.",
+
+  Earth:
+    "पृथ्वी (Earth)<br>" +
+    "Diameter: 12,742 km<br>" +
+    "Sun Distance: 149.6 million km<br>" +
+    "Year: 365.25 days<br>" +
+    "Day: 24 hours<br>" +
+    "विशेष: जीवन अस्तित्वात असल्याचे ज्ञात असलेला एकमेव ग्रह.",
+
+  Mars:
+    "मंगळ (Mars)<br>" +
+    "Diameter: 6,779 km<br>" +
+    "Sun Distance: 227.9 million km<br>" +
+    "Year: 687 Earth days<br>" +
+    "Day: 24 hours 37 minutes<br>" +
+    "विशेष: लाल ग्रह. येथे Olympus Mons हा विशाल ज्वालामुखी आहे.",
+
+  Jupiter:
+    "गुरू (Jupiter)<br>" +
+    "Diameter: 139,820 km<br>" +
+    "Sun Distance: 778.6 million km<br>" +
+    "Year: 11.86 Earth years<br>" +
+    "Day: 9 hours 56 minutes<br>" +
+    "विशेष: सौरमालेतील सर्वात मोठा ग्रह. Great Red Spot वादळासाठी प्रसिद्ध.",
+
+  Saturn:
+    "शनी (Saturn)<br>" +
+    "Diameter: 116,460 km<br>" +
+    "Sun Distance: 1.43 billion km<br>" +
+    "Year: 29.4 Earth years<br>" +
+    "Day: 10.7 hours<br>" +
+    "विशेष: बर्फ आणि खडकांपासून बनलेल्या सुंदर कड्यांसाठी प्रसिद्ध.",
+
+  Uranus:
+    "युरेनस (Uranus)<br>" +
+    "Diameter: 50,724 km<br>" +
+    "Sun Distance: 2.87 billion km<br>" +
+    "Year: 84 Earth years<br>" +
+    "Day: 17 hours 14 minutes<br>" +
+    "विशेष: बाजूला कलून फिरणारा निळसर-हिरवा बर्फाळ ग्रह.",
+
+  Neptune:
+    "नेपच्यून (Neptune)<br>" +
+    "Diameter: 49,244 km<br>" +
+    "Sun Distance: 4.50 billion km<br>" +
+    "Year: 165 Earth years<br>" +
+    "Day: 16 hours<br>" +
+    "विशेष: सूर्यापासून सर्वात दूरचा ग्रह. येथे अतिवेगवान वारे वाहतात."
+};
+
 
     const panel = document.getElementById('planet-info');
     panel.innerHTML = '<h3>' + name + '</h3><p>' + details[name] + '</p>';
