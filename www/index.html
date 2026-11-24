@@ -278,9 +278,6 @@ const details = {
   }
 });
 
-const moonPivots = [];
-const moonObjects = [];
-
 objects.forEach((planetMesh, index) => {
   moonPivots.forEach((p,i)=>p.rotation.y+=0.01+(i*0.002));
   const planetName = planets[index][0];
