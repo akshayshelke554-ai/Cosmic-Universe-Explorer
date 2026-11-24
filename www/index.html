@@ -93,6 +93,40 @@ planets.forEach((p,i)=>{
  }
 });
 
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
+renderer.domElement.addEventListener('pointerdown', (event) => {
+  const rect = renderer.domElement.getBoundingClientRect();
+
+  pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+  raycaster.setFromCamera(pointer, camera);
+
+  const hits = raycaster.intersectObjects(objects);
+
+  if (hits.length > 0) {
+    const index = objects.indexOf(hits[0].object);
+    const name = planets[index][0];
+
+    const details = {
+      Mercury: "बुध / Mercury – सूर्याच्या सर्वात जवळचा ग्रह. Smallest planet.",
+      Venus: "शुक्र / Venus – सर्वात उष्ण ग्रह. Hottest planet.",
+      Earth: "पृथ्वी / Earth – आपले घर. Known planet with life.",
+      Mars: "मंगळ / Mars – लाल ग्रह. The Red Planet.",
+      Jupiter: "गुरू / Jupiter – सौरमालेतील सर्वात मोठा ग्रह. Largest planet.",
+      Saturn: "शनी / Saturn – सुंदर कड्यांसाठी प्रसिद्ध. Famous for its rings.",
+      Uranus: "युरेनस / Uranus – बाजूला कलून फिरणारा ग्रह. Rotates on its side.",
+      Neptune: "नेपच्यून / Neptune – सूर्यापासून सर्वात दूरचा ग्रह. Farthest planet."
+    };
+
+    const panel = document.getElementById('planet-info');
+    panel.innerHTML = '<h3>' + name + '</h3><p>' + details[name] + '</p>';
+    panel.style.display = 'block';
+  }
+});
+  
 function animate(){
  requestAnimationFrame(animate);
  sun.rotation.y+=0.002;
