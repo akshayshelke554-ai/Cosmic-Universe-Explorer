@@ -66,6 +66,39 @@ const planets=[
  ['Neptune',1,28,0x3355ff]
 ];
 
+const moonData = {
+  Earth: [
+    ["Moon", 0.22, 1.5, 0xcccccc]
+  ],
+  Mars: [
+    ["Phobos", 0.10, 1.0, 0x999999],
+    ["Deimos", 0.08, 1.5, 0xaaaaaa]
+  ],
+  Jupiter: [
+    ["Io", 0.16, 2.0, 0xffcc66],
+    ["Europa", 0.14, 2.6, 0xeeeecc],
+    ["Ganymede", 0.22, 3.2, 0xaaaaaa],
+    ["Callisto", 0.19, 3.9, 0x777777]
+  ],
+  Saturn: [
+    ["Titan", 0.20, 2.5, 0xddaa66],
+    ["Enceladus", 0.09, 3.1, 0xeeeeff],
+    ["Rhea", 0.13, 3.7, 0xcccccc],
+    ["Iapetus", 0.12, 4.3, 0x888888]
+  ],
+  Uranus: [
+    ["Titania", 0.14, 2.0, 0xaaaaaa],
+    ["Oberon", 0.13, 2.6, 0x999999],
+    ["Ariel", 0.10, 3.2, 0xdddddd],
+    ["Umbriel", 0.10, 3.8, 0x777777],
+    ["Miranda", 0.08, 4.4, 0xcccccc]
+  ],
+  Neptune: [
+    ["Triton", 0.15, 2.0, 0x99bbdd],
+    ["Nereid", 0.08, 2.8, 0xaaaaaa]
+  ]
+};
+  
 const objects=[];
 planets.forEach((p,i)=>{
  const mesh=new THREE.Mesh(
@@ -92,7 +125,33 @@ planets.forEach((p,i)=>{
   mesh.add(ring);
  }
 });
+const moonPivots = [];
+const moonObjects = [];
 
+objects.forEach((planetMesh, index) => {
+  const planetName = planets[index][0];
+  const moons = moonData[planetName] || [];
+
+  moons.forEach((m, i) => {
+    const pivot = new THREE.Group();
+    planetMesh.add(pivot);
+
+    const moon = new THREE.Mesh(
+      new THREE.SphereGeometry(m[1], 32, 32),
+      new THREE.MeshStandardMaterial({
+        color: m[3],
+        roughness: 0.9
+      })
+    );
+
+    moon.position.x = planets[index][1] + m[2];
+    moon.userData.name = m[0];
+
+    pivot.add(moon);
+    moonPivots.push(pivot);
+    moonObjects.push(moon);
+  });
+});
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 
@@ -104,9 +163,44 @@ renderer.domElement.addEventListener('pointerdown', (event) => {
 
   raycaster.setFromCamera(pointer, camera);
 
-  const hits = raycaster.intersectObjects(objects);
+  const hits = raycaster.intersectObjects([...objects, ...moonObjects]);
 
   if (hits.length > 0) {
+    const selected = hits[0].object;
+const panel = document.getElementById('planet-info');
+
+if (moonObjects.includes(selected)) {
+  const moonName = selected.userData.name;
+
+  const moonDetails = {
+    Moon: "Earth's only natural satellite. पृथ्वीचा एकमेव नैसर्गिक उपग्रह.",
+    Phobos: "Mars' inner moon. मंगळाचा सर्वात जवळचा चंद्र.",
+    Deimos: "Mars' outer moon. मंगळाचा दुसरा चंद्र.",
+    Io: "Jupiter's volcanic moon. ज्वालामुखींसाठी प्रसिद्ध.",
+    Europa: "An icy moon that may have a subsurface ocean.",
+    Ganymede: "The largest moon in the Solar System.",
+    Callisto: "A heavily cratered moon of Jupiter.",
+    Titan: "Saturn's largest moon with a thick atmosphere.",
+    Enceladus: "An icy moon with water-rich plumes.",
+    Rhea: "One of Saturn's major icy moons.",
+    Iapetus: "Known for its two-tone surface.",
+    Titania: "The largest moon of Uranus.",
+    Oberon: "A major moon of Uranus.",
+    Ariel: "An icy moon of Uranus.",
+    Umbriel: "A dark moon of Uranus.",
+    Miranda: "A small moon with unusual surface features.",
+    Triton: "Neptune's large moon with a retrograde orbit.",
+    Nereid: "A Neptune moon with a highly elliptical orbit."
+  };
+
+  panel.innerHTML =
+    '<h3>' + moonName + '</h3><p>' +
+    (moonDetails[moonName] || 'Natural satellite') +
+    '</p>';
+
+  panel.style.display = 'block';
+  return;
+}
     const index = objects.indexOf(hits[0].object);
     const name = planets[index][0];
 
@@ -182,6 +276,35 @@ const details = {
     panel.innerHTML = '<h3>' + name + '</h3><p>' + details[name] + '</p>';
     panel.style.display = 'block';
   }
+});
+
+const moonPivots = [];
+const moonObjects = [];
+
+objects.forEach((planetMesh, index) => {
+  moonPivots.forEach((p,i)=>p.rotation.y+=0.01+(i*0.002));
+  const planetName = planets[index][0];
+  const moons = moonData[planetName] || [];
+
+  moons.forEach((m, i) => {
+    const pivot = new THREE.Group();
+    planetMesh.add(pivot);
+
+    const moon = new THREE.Mesh(
+      new THREE.SphereGeometry(m[1], 32, 32),
+      new THREE.MeshStandardMaterial({
+        color: m[3],
+        roughness: 0.9
+      })
+    );
+
+    moon.position.x = planets[index][1] + m[2];
+    moon.userData.name = m[0];
+
+    pivot.add(moon);
+    moonPivots.push(pivot);
+    moonObjects.push(moon);
+  });
 });
   
 function animate(){
