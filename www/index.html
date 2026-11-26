@@ -35,6 +35,39 @@ const scene = new THREE.Scene();
 const textureLoader = new THREE.TextureLoader();
 scene.background = new THREE.Color(0x02040c);
 
+// REALISTIC SPACE STARFIELD
+const starGeometry = new THREE.BufferGeometry();
+const starPositions = [];
+
+for (let i = 0; i < 4000; i++) {
+  const x = (Math.random() - 0.5) * 500;
+  const y = (Math.random() - 0.5) * 500;
+  const z = (Math.random() - 0.5) * 500;
+
+  starPositions.push(x, y, z);
+}
+
+starGeometry.setAttribute(
+  'position',
+  new THREE.Float32BufferAttribute(starPositions, 3)
+);
+
+const starMaterial = new THREE.PointsMaterial({
+  color: 0xffffff,
+  size: 0.8,
+  transparent: true,
+  opacity: 0.9,
+  sizeAttenuation: true,
+  depthWrite: false
+});
+
+const stars = new THREE.Points(
+  starGeometry,
+  starMaterial
+);
+
+scene.add(stars);
+  
 const camera = new THREE.PerspectiveCamera(60,innerWidth/innerHeight,0.1,1000);
 camera.position.set(0,12,32);
 
@@ -109,22 +142,26 @@ const material = new THREE.MeshStandardMaterial({
   metalness: 0.0
 });
 
-
 const textureUrls = {
-  Mercury: 'https://www.simplespacedata.org/texture/solarsystemscope/mercury/latest/2k_mercury.jpg',
-  Venus: 'https://www.simplespacedata.org/texture/solarsystemscope/venus_surface/latest/2k_venus_surface.jpg',
-  Earth: 'https://www.simplespacedata.org/texture/solarsystemscope/earth_daymap/latest/2k_earth_daymap.jpg',
-  Mars: 'https://www.simplespacedata.org/texture/solarsystemscope/mars/latest/2k_mars.jpg',
-  Jupiter: 'https://www.simplespacedata.org/texture/solarsystemscope/jupiter/latest/2k_jupiter.jpg',
-  Saturn: 'https://www.simplespacedata.org/texture/solarsystemscope/saturn/latest/2k_saturn.jpg',
-  Uranus: 'https://www.simplespacedata.org/texture/solarsystemscope/uranus/latest/2k_uranus.jpg',
-  Neptune: 'https://www.simplespacedata.org/texture/solarsystemscope/neptune/latest/2k_neptune.jpg'
+  Mercury: 'https://www.solarsystemscope.com/textures/download/2k_mercury.jpg',
+  Venus: 'https://www.solarsystemscope.com/textures/download/2k_venus_surface.jpg',
+  Earth: 'https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg',
+  Mars: 'https://www.solarsystemscope.com/textures/download/2k_mars.jpg',
+  Jupiter: 'https://www.solarsystemscope.com/textures/download/2k_jupiter.jpg',
+  Saturn: 'https://www.solarsystemscope.com/textures/download/2k_saturn.jpg',
+  Uranus: 'https://www.solarsystemscope.com/textures/download/2k_uranus.jpg',
+  Neptune: 'https://www.solarsystemscope.com/textures/download/2k_neptune.jpg'
 };
 
 const textureUrl = textureUrls[p[0]];
 
 if (textureUrl) {
-  material.map = textureLoader.load(textureUrl);
+  material.map = textureLoader.load(
+    textureUrl,
+    undefined,
+    undefined,
+    (error) => console.error('Texture loading failed:', p[0], error)
+  );
   material.color.set(0xffffff);
 }
 
