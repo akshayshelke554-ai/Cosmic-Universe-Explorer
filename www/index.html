@@ -32,6 +32,7 @@ import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/exampl
 
 try {
 const scene = new THREE.Scene();
+const textureLoader = new THREE.TextureLoader();
 scene.background = new THREE.Color(0x02040c);
 
 const camera = new THREE.PerspectiveCamera(60,innerWidth/innerHeight,0.1,1000);
@@ -56,14 +57,14 @@ const sun = new THREE.Mesh(
 scene.add(sun);
 
 const planets=[
- ['Mercury',0.45,4,0xaaaaaa],
- ['Venus',0.7,6,0xe5b66b],
- ['Earth',0.8,9,0x2277ff],
- ['Mars',0.6,12,0xcc5533],
- ['Jupiter',1.5,16,0xd5aa77],
- ['Saturn',1.3,20,0xd9c28b],
- ['Uranus',1,24,0x77ddff],
- ['Neptune',1,28,0x3355ff]
+ ['Mercury',0.45,4,0x898780],
+ ['Venus',0.7,6,0xd9a66b],
+ ['Earth',0.8,9,0x2877c9],
+ ['Mars',0.6,12,0xb65335],
+ ['Jupiter',1.5,16,0xc69b72],
+ ['Saturn',1.3,20,0xd8c69a],
+ ['Uranus',1,24,0x8ed9df],
+ ['Neptune',1,28,0x3157a5]
 ];
 
 const moonData = {
@@ -101,13 +102,28 @@ const moonData = {
   
 const objects=[];
 planets.forEach((p,i)=>{
- const mesh=new THREE.Mesh(
-  new THREE.SphereGeometry(p[1],48,48),
-  new THREE.MeshStandardMaterial({color:p[3],roughness:0.85})
- );
- mesh.position.x=p[2];
- scene.add(mesh);
- objects.push(mesh);
+ 
+const material = new THREE.MeshStandardMaterial({
+  color: p[3],
+  roughness: 0.9,
+  metalness: 0.0
+});
+
+if (p[0] === 'Earth') {
+  material.map = textureLoader.load(
+    'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg'
+  );
+}
+
+const mesh = new THREE.Mesh(
+  new THREE.SphereGeometry(p[1], 96, 96),
+  material
+);
+
+mesh.position.x = p[2];
+scene.add(mesh);
+objects.push(mesh);
+
 
  const orbit=new THREE.Mesh(
   new THREE.RingGeometry(p[2]-0.015,p[2]+0.015,128),
