@@ -277,36 +277,13 @@ const details = {
     panel.style.display = 'block';
   }
 });
-
-objects.forEach((planetMesh, index) => {
-  moonPivots.forEach((p,i)=>p.rotation.y+=0.01+(i*0.002));
-  const planetName = planets[index][0];
-  const moons = moonData[planetName] || [];
-
-  moons.forEach((m, i) => {
-    const pivot = new THREE.Group();
-    planetMesh.add(pivot);
-
-    const moon = new THREE.Mesh(
-      new THREE.SphereGeometry(m[1], 32, 32),
-      new THREE.MeshStandardMaterial({
-        color: m[3],
-        roughness: 0.9
-      })
-    );
-
-    moon.position.x = planets[index][1] + m[2];
-    moon.userData.name = m[0];
-
-    pivot.add(moon);
-    moonPivots.push(pivot);
-    moonObjects.push(moon);
-  });
-});
-  
+ 
 function animate(){
  requestAnimationFrame(animate);
  sun.rotation.y+=0.002;
+  moonPivots.forEach((p,i) => {
+  p.rotation.y += 0.01 + (i * 0.002);
+});
  objects.forEach((p,i)=>p.rotation.y+=0.005+(i*0.001));
  controls.update();
  renderer.render(scene,camera);
