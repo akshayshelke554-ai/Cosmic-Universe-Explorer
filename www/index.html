@@ -79,15 +79,47 @@ document.body.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera,renderer.domElement);
 controls.enableDamping=true;
 
-scene.add(new THREE.AmbientLight(0xffffff,1.2));
-const light = new THREE.PointLight(0xffffff,3,200);
+scene.add(new THREE.AmbientLight(0xffffff, 2));
+
+const light = new THREE.PointLight(
+  0xffffff,
+  150,
+  300,
+  2
+);
+
+light.position.set(0, 0, 0);
 scene.add(light);
 
+const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
+fillLight.position.set(-20, 20, 30);
+scene.add(fillLight);
+
+
 const sun = new THREE.Mesh(
- new THREE.SphereGeometry(2,48,48),
- new THREE.MeshBasicMaterial({color:0xffaa22})
+  new THREE.SphereGeometry(2, 64, 64),
+  new THREE.MeshBasicMaterial({
+    color: 0xffcc44
+  })
 );
 scene.add(sun);
+
+// Sun outer glow
+const sunGlow = new THREE.Mesh(
+  new THREE.SphereGeometry(2.5, 64, 64),
+  new THREE.MeshBasicMaterial({
+    color: 0xff8800,
+    transparent: true,
+    opacity: 0.22,
+    side: THREE.BackSide,
+    depthWrite: false
+  })
+);
+sun.add(sunGlow);
+
+// Bright sunlight
+light.position.set(0, 0, 0);
+light.intensity = 150;
 
 const planets=[
  ['Mercury',0.45,4,0x898780],
@@ -134,8 +166,11 @@ const moonData = {
 };
   
 const objects=[];
+const orbitPivots = [];
 planets.forEach((p,i)=>{
- 
+  const orbitPivot = new THREE.Group();
+ scene.add(orbitPivot);
+ orbitPivots.push(orbitPivot);
 const material = new THREE.MeshStandardMaterial({
   color: p[3],
   roughness: 0.9,
