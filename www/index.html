@@ -157,6 +157,7 @@ renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
 document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera,renderer.domElement);
+controls.enabled = true;
 controls.enableDamping=true;
 controls.dampingFactor = 0.05;
 controls.minDistance = 1;
@@ -500,15 +501,7 @@ function animate(){
   p.rotation.y += 0.01 + (i * 0.002);
 });
  objects.forEach((p,i)=>p.rotation.y+=0.005+(i*0.001));
-  camera.position.lerp(
-  desiredCameraPosition,
-  0.05
-);
-
-controls.target.lerp(
-  desiredTarget,
-  0.05
-);
+  
  controls.update();
  renderer.render(scene,camera);
 }
