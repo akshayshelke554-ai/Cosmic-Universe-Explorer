@@ -271,8 +271,7 @@ const planetTexture = textureLoader.load(
 );
 
 const material = new THREE.MeshStandardMaterial({
-  map: planetTexture,
-  color: 0xffffff,
+  color: p[3],
   roughness: 0.9,
   metalness: 0
 });
